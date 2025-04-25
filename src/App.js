@@ -13,7 +13,7 @@ export default class App extends React.Component {
   render () {
     return (
       <div>
-        My name is {this.state.name}
+      
         <MyComponent></MyComponent>
       </div>
     )
