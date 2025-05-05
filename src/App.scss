@@ -11,6 +11,8 @@ body {
 .app-container {
   .header-container {
     .navbar-nav {
+      z-index: 10;
+      opacity: 0.6;
       .nav-link {
        &.active {
           color: red;
@@ -22,4 +24,15 @@ body {
 
     // }
   }
+}
+video {
+  position: fixed;
+  bottom: 0;
+  
+}
+.homepage-video {
+  max-width: 500px; /* hoặc kích thước bạn muốn */
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.08);
 }
