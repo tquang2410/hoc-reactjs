@@ -77,11 +77,12 @@ body {
 video {
   position: fixed;
   bottom: 0;
-  
+  right: 0;
 }
 .homepage-video {
-  max-width: 500px; /* hoặc kích thước bạn muốn */
+  max-width: 500px;
   height: auto;
   border-radius: 16px;
   box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+  align-self: flex-end;
 }

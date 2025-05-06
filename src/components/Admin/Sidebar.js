@@ -9,12 +9,18 @@ import {
     SidebarFooter,
     SidebarContent,
   } from 'react-pro-sidebar';
-  import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa';
-  import sidebarBg from '../../assets/bg2.jpg';
+
+    import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa';
+    import sidebarBg from '../../assets/bg2.jpg';
+    import { DiReact } from "react-icons/di";
+    import { MdDashboard } from "react-icons/md";
+    import { FaReact } from "react-icons/fa";
+    import './SideBar.scss';
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props;
     return (
         <>
+
            <ProSidebar
       image={sidebarBg }
       collapsed={collapsed}
@@ -35,29 +41,29 @@ const SideBar = (props) => {
             whiteSpace: 'nowrap',
           }}
         >
-          Wang hoc react
+            <DiReact size={'3em'} color = {'#00bfff' } />
+            <span>Hoc react </span>
         </div>
       </SidebarHeader>
 
       <SidebarContent>
         <Menu iconShape="circle">
           <MenuItem
-            icon={<FaTachometerAlt />}
-            suffix={<span className="badge red">New</span>}
+            icon={<MdDashboard />}
+            // suffix={<span className="badge red">New</span>}
           >
-            dashboard
+            Dashboard
           </MenuItem>
-          <MenuItem icon={<FaGem />}> components</MenuItem>
+          {/*<MenuItem icon={<FaGem />}> components</MenuItem>*/}
         </Menu>
         <Menu iconShape="circle">
           <SubMenu
-            suffix={<span className="badge yellow">3</span>}
-            
-            icon={<FaRegLaughWink />}
+              icon={<FaGem/>}
+            title="Feature"
           >
-            <MenuItem> 1</MenuItem>
-            <MenuItem> 2</MenuItem>
-            <MenuItem> 3</MenuItem>
+            <MenuItem> Quản lý Users</MenuItem>
+            <MenuItem> Quản lý Bài Quiz</MenuItem>
+            <MenuItem> Quản lý Câu Hỏi</MenuItem>
           </SubMenu>
         </Menu>
       </SidebarContent>
@@ -77,7 +83,7 @@ const SideBar = (props) => {
           >
             <FaGithub />
             <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-              viewSource
+             &#169; viewSource
             </span>
           </a>
         </div>
