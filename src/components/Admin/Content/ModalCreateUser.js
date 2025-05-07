@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FaPlusCircle } from "react-icons/fa";
 import axios from "axios";
+import {toast} from "react-toastify";
 
 const ModalCreateUser = (props) => {
     const {show, setShow} = props;
@@ -23,6 +24,7 @@ const ModalCreateUser = (props) => {
     const [role, setRole] = useState('USER');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
+
     const handleUploadImage = (event) => {
         if (event.target.files && event.target.files[0]) {
             setPreviewImage(URL.createObjectURL(event.target.files[0]));
@@ -31,14 +33,27 @@ const ModalCreateUser = (props) => {
             // setPreviewImage('');
         }
     }
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
     const handleSubmitCreateUser = async() => {
-        // let data = {
-        //     email: email,
-        //     password: password,
-        //     username: username,
-        //     role: role,
-        //     userImage: image
-        // }
+        // validate email
+        const isValidEmail = validateEmail(email);
+        if (!isValidEmail) {
+            // toast.success()
+            // toast.info('Wow so easy !');
+            toast.error('Invalid email address');
+            return;
+        }
+        // validate password
+        if (!password) {
+            toast.error('Invalid password');
+            return;
+        }
         const data = new FormData();
         data.append('email', email);
         data.append('password', password );
@@ -48,8 +63,16 @@ const ModalCreateUser = (props) => {
 
         // Goi API
        let res = await axios.post('http://localhost:8081/api/v1/participant', data);
-       console.log("check res", res);
+       console.log("check res", res.data);
+       if (res && res.data && res.data.errorCode === 0) {
+           toast.success('Create user successfully');
+           handleClose();
+       }
+       if(res.data && res.data.errorCode !== 0 ) {
+              toast.error(res.data.message);
+       }
     }
+
     return (
         <>
             {/*<Button variant="primary" onClick={handleShow}>*/}
