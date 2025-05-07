@@ -2,12 +2,20 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FaPlusCircle } from "react-icons/fa";
+import axios from "axios";
 
-const ModalCreateUser = () => {
-    const [show, setShow] = useState(false);
+const ModalCreateUser = (props) => {
+    const {show, setShow} = props;
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = () => {
+        setShow(false)
+        setEmail('');
+        setPassword('');
+        setUsername('');
+        setRole('USER');
+        setImage('');
+    };
+
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,14 +30,31 @@ const ModalCreateUser = () => {
         } else {
             // setPreviewImage('');
         }
+    }
+    const handleSubmitCreateUser = async() => {
+        // let data = {
+        //     email: email,
+        //     password: password,
+        //     username: username,
+        //     role: role,
+        //     userImage: image
+        // }
+        const data = new FormData();
+        data.append('email', email);
+        data.append('password', password );
+        data.append('username', username);
+        data.append('role', role);
+        data.append('userImage', image);
 
-        console.log('upload file', event.target.files[0])
+        // Goi API
+       let res = await axios.post('http://localhost:8081/api/v1/participant', data);
+       console.log("check res", res);
     }
     return (
         <>
-            <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button>
+            {/*<Button variant="primary" onClick={handleShow}>*/}
+            {/*    Launch demo modal*/}
+            {/*</Button>*/}
 
             <Modal
                 show={show}
@@ -99,7 +124,7 @@ const ModalCreateUser = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
                         Save
                     </Button>
                 </Modal.Footer>
