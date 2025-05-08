@@ -56,10 +56,10 @@ const ModalCreateUser = (props) => {
 
         // Goi API
        let data = await postCreateNewUser(email, password, username, role, image);
-       console.log("component res: ", data);
        if (data && data.EC === 0) {
            toast.success(data.EM);
            handleClose();
+           await props.fetchListUsers();
        }
        if(data && data.EC !== 0 ) {
               toast.error(data.EM);
