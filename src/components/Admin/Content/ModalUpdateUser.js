@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FaPlusCircle } from "react-icons/fa";
 import {toast} from "react-toastify";
-import { postCreateNewUser } from '../../../services/apiService';
+import { putUpdateUser } from '../../../services/apiService';
 import _ from 'lodash';
 import data from "bootstrap/js/src/dom/data";
 const ModalUpdateUSer = (props) => {
@@ -16,6 +16,8 @@ const ModalUpdateUSer = (props) => {
         setUsername('');
         setRole('USER');
         setImage('');
+        setPreviewImage('');
+        props.resetUpdateData();
     };
 
 
@@ -54,20 +56,20 @@ const ModalUpdateUSer = (props) => {
     };
     const handleSubmitCreateUser = async() => {
         // validate email
-        // const isValidEmail = validateEmail(email);
-        // if (!isValidEmail) {
-        //     toast.error('Invalid email address');
-        //     return;
-        // }
-        // validate password
-        if (!password) {
-            toast.error('Invalid password');
+        const isValidEmail = validateEmail(email);
+        if (!isValidEmail) {
+            toast.error('Invalid email address');
             return;
         }
-
+        // validate password
 
         // Goi API
-        let data = await postCreateNewUser(email, password, username, role, image);
+        let data = await putUpdateUser(
+            dataUpdate.id,
+            username,
+            role,
+            image
+        );
         if (data && data.EC === 0) {
             toast.success(data.EM);
             handleClose();
