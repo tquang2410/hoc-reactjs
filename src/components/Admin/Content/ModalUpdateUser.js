@@ -4,9 +4,10 @@ import Modal from 'react-bootstrap/Modal';
 import { FaPlusCircle } from "react-icons/fa";
 import {toast} from "react-toastify";
 import { postCreateNewUser } from '../../../services/apiService';
-
-const ModalCreateUser = (props) => {
-    const { show, setShow } = props;
+import _ from 'lodash';
+import data from "bootstrap/js/src/dom/data";
+const ModalUpdateUSer = (props) => {
+    const {show, setShow, dataUpdate} = props;
 
     const handleClose = () => {
         setShow(false)
@@ -24,6 +25,17 @@ const ModalCreateUser = (props) => {
     const [role, setRole] = useState('USER');
     const [image, setImage] = useState('');
     const [previewImage, setPreviewImage] = useState('');
+
+    useEffect(() => {
+        console.log('run useEffect');
+   if(!_.isEmpty(dataUpdate)){
+       setEmail(dataUpdate.email);
+         setUsername(dataUpdate.username);
+            setRole(dataUpdate.role);
+            setImage('');
+            setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`);
+   }
+    }, [dataUpdate]);
 
     const handleUploadImage = (event) => {
         if (event.target.files && event.target.files[0]) {
@@ -55,15 +67,15 @@ const ModalCreateUser = (props) => {
 
 
         // Goi API
-       let data = await postCreateNewUser(email, password, username, role, image);
-       if (data && data.EC === 0) {
-           toast.success(data.EM);
-           handleClose();
-           await props.fetchListUsers();
-       }
-       if(data && data.EC !== 0 ) {
-              toast.error(data.EM);
-       }
+        let data = await postCreateNewUser(email, password, username, role, image);
+        if (data && data.EC === 0) {
+            toast.success(data.EM);
+            handleClose();
+            await props.fetchListUsers();
+        }
+        if(data && data.EC !== 0 ) {
+            toast.error(data.EM);
+        }
     }
 
     return (
@@ -76,7 +88,7 @@ const ModalCreateUser = (props) => {
                 className='modal-add-user'
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Add new user</Modal.Title>
+                    <Modal.Title>Update user</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form className="row g-3">
@@ -85,7 +97,8 @@ const ModalCreateUser = (props) => {
                             <input type="email"
                                    className="form-control"
                                    value={email}
-                                      onChange={(event) => setEmail(event.target.value)}
+                                   disabled
+                                   onChange={(event) => setEmail(event.target.value)}
                             />
                         </div>
                         <div className="col-md-6">
@@ -93,7 +106,8 @@ const ModalCreateUser = (props) => {
                             <input type="password"
                                    className="form-control"
                                    value={password}
-                                      onChange={(event) => setPassword(event.target.value)}
+                                   disabled
+                                   onChange={(event) => setPassword(event.target.value)}
                             />
                         </div>
 
@@ -102,12 +116,16 @@ const ModalCreateUser = (props) => {
                             <input type="text"
                                    className="form-control"
                                    value={username}
-                                        onChange={(event) => setUsername(event.target.value)}
+                                   onChange={(event) => setUsername(event.target.value)}
                             />
                         </div>
                         <div className="col-md-4">
                             <label  className="form-label">Role</label>
-                            <select className="form-select" onChange={(event) => setRole(event.target.value)}>
+                            <select
+                                className="form-select"
+                                value={role}
+                                onChange={(event) => setRole(event.target.value)}
+                            >
                                 <option value="USER">USERS</option>
                                 <option value="ADMIN">ADMIN</option>
                             </select>
@@ -144,4 +162,4 @@ const ModalCreateUser = (props) => {
         </>
     );
 }
-export default ModalCreateUser;
+export default ModalUpdateUSer;
