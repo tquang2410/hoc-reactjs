@@ -1,5 +1,4 @@
 import ModalCreateUser from "./ModalCreateUser";
-import TableUser from "./TableUser";
 import './ManageUser.scss'
 import {FcPlus} from 'react-icons/fc';
 import React, {useEffect,useState} from 'react';
@@ -12,11 +11,15 @@ import TableUserPaginate from "./TableUserPaginate";
 
 const ManageUser = (props) => {
     const LIMIT_USER = 6;
+    const [pageCount, setPageCount] = useState(0);
+
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     const [showModalViewUser, setShowModalViewUser] = useState(false);
     const [showModalUpdateUser, setShowModalUpdateUser] = useState(false);
+
     const [dataUpdate, setDataUpdate] = useState({});
     const [dataDelete, setDataDelete] = useState({});
+
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [listUsers, setListUsers] = useState([]);
     // Component did mount
@@ -37,6 +40,7 @@ const ManageUser = (props) => {
         {
             console.log('res.dt = ', res.DT);
             setListUsers(res.DT.users);
+            setPageCount(res.DT.totalPages);
         }
     }
     const handleClickBtnUpdate = (user) => {
@@ -77,6 +81,7 @@ const ManageUser = (props) => {
                         listUsers={listUsers}
                         handleClickBtnDelete={handleClickBtnDelete}
                         fetchListUsersWithPaginate={fetchListUsersWithPaginate}
+                        pageCount={pageCount}
                     />
                 </div>
                 <ModalCreateUser
