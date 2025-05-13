@@ -8,6 +8,7 @@ const TableUserPaginate = (props) => {
         // console.log(`User requested page number ${event.selected}`);
         const page = +event.selected + 1;
         props.fetchListUsersWithPaginate(page);
+        props.setCurrentPage(page);
     };
     return (
         <>
@@ -73,6 +74,7 @@ const TableUserPaginate = (props) => {
                 containerClassName="pagination"
                 activeClassName="active"
                 renderOnZeroPageCount={null}
+                forcePage={props.currentPage - 1 }
             />
             </div>
         </>
